@@ -7,7 +7,7 @@
 #include <algorithm>
 #include <type_traits>
 #include <vector>
-
+#include<optional>
 /** STUDENT_TODO: You will need to include a relevant header file here! */
 
 #include "autograder/utils.hpp"
@@ -52,18 +52,23 @@ public:
    * @param course_title The title of the course to find.
    * @return You will need to figure this out!
    */
-  FillMeIn find_course(std::string course_title)
+std::optional<Course> find_course(std::string course_title)
   {
     /* STUDENT_TODO: Implement this method! You will need to change the return
      * type. */
-  }
+    for(const auto& course : courses){
+      if(course.title == course_title){
+        return course;
+      }
+    }
+    return std::nullopt;
+}
 
 private:
   std::vector<Course> courses;
 };
 
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
   static_assert(
     !std::is_same_v<std::invoke_result_t<decltype (&CourseDatabase::find_course), 
@@ -80,13 +85,16 @@ main(int argc, char* argv[])
     STUDENT_TODO: Populate the output string with the right information to print
     Please pay special attention to the README here
     ********************************************************/
+    std::string output = course
+        .transform([](const Course& c) -> std::string {
+            return "Found course: " + c.title + "," + c.number_of_units + "," + c.quarter + "\n";
+        })
+        .value_or("Course not found.\n");
 
-    std::string output = /* STUDENT_TODO */
 
     /********************************************************
      DO NOT MODIFY ANYTHING BELOW THIS LINE PLEASE
     ********************************************************/
-
     std::cout << output << std::endl;
     return 0;
   }

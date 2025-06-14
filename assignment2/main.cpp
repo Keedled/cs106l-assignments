@@ -6,15 +6,16 @@
  * in this file. You do not need to modify any other files.
  *
  */
-
+#include <random>
 #include <fstream>
 #include <iostream>
 #include <queue>
 #include <set>
 #include <string>
 #include <unordered_set>
+#include <cctype>
 
-std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
+std::string kYourName = "Mike John"; // Don't forget to change this!
 
 /**
  * Takes in a file name and returns a set containing all of the applicant names as a set.
@@ -28,9 +29,23 @@ std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
  * to also change the corresponding functions in `utils.h`.
  */
 std::set<std::string> get_applicants(std::string filename) {
-  // STUDENT TODO: Implement this function.
+     std::ifstream ifs(filename);
+     std::set<std::string> Set;
+     std::string str;
+     while(std::getline(ifs,str))
+     {
+        Set.insert(str);
+     }
+     return Set;
 }
-
+std::string Helper(std::string str){
+    std::string s;
+    for(auto c:str){
+      if(c<='Z'&&c>='A')
+      s.push_back(c);
+    }
+    return s;
+}
 /**
  * Takes in a set of student names by reference and returns a queue of names
  * that match the given student name.
@@ -40,8 +55,17 @@ std::set<std::string> get_applicants(std::string filename) {
  * @return          A queue containing pointers to each matching name.
  */
 std::queue<const std::string*> find_matches(std::string name, std::set<std::string>& students) {
-  // STUDENT TODO: Implement this function.
+    std::queue<const std::string*> Queue;
+    std::string std_ori;
+    std_ori = Helper(name);
+    for(auto it = students.begin();it!=students.end();it++){
+        if(!std_ori.compare(Helper(*it))){//如果首字母相等的话
+          Queue.push(&(*it));//压入队列中
+        }
+    }
+    return Queue;
 }
+
 
 /**
  * Takes in a queue of pointers to possible matches and determines the one true match!
@@ -54,8 +78,25 @@ std::queue<const std::string*> find_matches(std::string name, std::set<std::stri
  *                Will return "NO MATCHES FOUND." if `matches` is empty.
  */
 std::string get_match(std::queue<const std::string*>& matches) {
-  // STUDENT TODO: Implement this function.
+    if(matches.empty()){
+       return "NO MATCHES FOUND.";
+    }
+    else{
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        int minn = 0;
+        int maxn = matches.size()-1;
+        std::uniform_int_distribution<> dis(minn, maxn);
+        int randomNum = dis(gen);
+        for(int i =0;i<randomNum-1;i++){
+            matches.pop();
+        }
+        return *(matches.front());
+    } 
 }
 
 /* #### Please don't remove this line! #### */
 #include "autograder/utils.hpp"
+int main(){
+    return run_autograder();
+}

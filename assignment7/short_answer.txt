@@ -5,7 +5,7 @@ Unique Pointer
 --------------
 
 Q1. List one or two benefits of using RAII to manage memory instead manually calling `new` and `delete`.
-A1. TODO
+A1. Do not worry the memory leak.
 
 Q2. When implementing move semantics for a `unique_ptr`, for example in the move constructor `unique_ptr(unique_ptr&& other)`, it is essential that we set the underlying pointer of the `other` parameter to `nullptr` before exiting the function. Explain in your own words what problem would arise if we did not.
 A2. TODO

@@ -66,9 +66,3 @@ run_autograder()
 
   return run_program(python, { "autograder/autograder.py" });
 }
-
-int
-main()
-{
-  return run_autograder();
-}
